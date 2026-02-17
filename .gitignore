@@ -1,0 +1,18 @@
+# Node
+node_modules
+dist
+build
+.next
+
+# Env files
+.env
+.env.local
+
+# Logs
+*.log
+
+# Docker
+docker-data
+
+# Prisma
+backend/prisma/dev.db
