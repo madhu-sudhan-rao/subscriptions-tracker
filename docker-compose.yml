@@ -4,6 +4,7 @@ services:
   db:
     image: postgres:15-alpine
     container_name: subscriptions-tracker-db
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -12,6 +13,30 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: subscriptions-tracker-backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/subscriptions_tracker
+    volumes:
+      - ./backend:/app
+    
+  frontend:
+    build: ./frontend
+    container_name: subscriptions-tracker-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      API_URL: http://backend:5000
+    volumes:
+      - ./frontend:/app
 
 volumes:
   pgdata:
