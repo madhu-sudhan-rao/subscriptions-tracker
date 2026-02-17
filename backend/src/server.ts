@@ -6,7 +6,13 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send({
+    message: "Hello World!",
+    data: {
+      name: "John Doe",
+      age: 30,
+    },
+  });
 });
 
 app.listen(3000, () => {
